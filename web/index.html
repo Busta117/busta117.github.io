@@ -9,6 +9,11 @@
 *{
 	margin: 0px;
 	padding: 0px;
+	margin: auto;
+	margin-top: auto;
+	margin-right: auto;
+	margin-bottom: auto;
+	margin-left: auto;
 }
 #topdiv
 {
@@ -39,12 +44,63 @@ margin-left: auto;
 height:500px;
 width:100%;
 }
+#tableTop
+{
+height:500px;
+width:50%;
+padding: 0px;
+}
+tr{
+	border-style:solid;
+}
+td{
+	border-style:solid;
+}
+#logoimg
+{
+height:132px;
+width:443px;		
+}
+#iphoneimg
+{
+height:781px;
+width:442px;
+
+}
+.toptr{
+height:290px;	
+
+}
+p{
+	font-family:"Roboto",serif;
+	text-align:center;
+	color:#fff;
+}
 </style>
 </head>
 
 <body>
-<div id="topdiv">  </div>
+<div id="topdiv"> 
+	<table id="tableTop">
+<td>
+	<table>
+	<tr class="toptr"><td><img id="logoimg" src="images/img_logo.png"></td></tr>
+	<tr class="toptr"><td><iframe width="440" height="268" src="//www.youtube.com/embed/vrA2uCfj_0M" frameborder="0" allowfullscreen></iframe></td></tr>
+	<tr class="toptr"><td><p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p></td></tr>
+	</table>
+</td>
+<td><img id="iphoneimg" src="images/img_iphone.png"></td>
+</table>	
+	 </div>
 <div id="middiv">  </div>
-<div id="bottomdiv"> </div>
+
+<div id="bottomdiv"> 
+	<table>
+	<tr style="height:113px;"><td>s</td></tr>
+	<tr style="height:185px;"><td>d</td></tr>
+	<tr style="height:80px;"><td>e</td></tr>
+	</table>
+	
+	</div>
 </body>
 </html>
