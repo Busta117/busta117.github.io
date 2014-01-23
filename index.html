@@ -46,39 +46,28 @@
 			height: 275px;
 		}
 
-		.logo {
-			padding-top: 30px;
-			position:relative;
-		}
-
-		.video {
-			margin-top: 30px;
-			position:absolute;
-		}
-
-		.iphone {
-			margin-top:-100px;
-			margin-left: 550px;
-			position:relative;
-
-		}
-
 		.descripcion{
 			color:white;
 			font-size: 1em;
 			text-align: justify;
 			float:left;
-			width: 420px;
+			width: auto;
+			max-width: 400px;
 			margin-top:-235px;
 		}
 
 		.equipo {
-			width: 400px;
+			width: auto;
+			max-width: 400px;
 			text-align: center;
 			margin: 0 auto;
-/*			display:inline-block;
-			margin-left:30px;*/
+		}
 
+		.perfil {
+			width: auto;
+			max-width: 400px;
+			height:170px;
+			text-align: center;
 		}
 
 		.margen {
@@ -88,19 +77,7 @@
 		.boton {
 			margin: 5px;
 		}
-
-		.perfil {
-			width:400px;
-			height:150px;
-			text-align: center;
-		}
-
-		.tiendas {
-			padding-top: 35px;
-			width: 350px;
-			margin: 0 auto;
-		}
-
+		
 		.contacto {
 			padding-top:10px;
 			width: 100%;
@@ -120,7 +97,7 @@
 		}
 
 		.texto {
-/*			display:inline-block;*/
+			display:block;
 /*			margin: 20px 0 0 0;*/
 			padding-top: 40px;
 			text-align: center;
@@ -128,18 +105,15 @@
 		}
 
 		.mailto {
-/*			margin-top:12px;*/
-/*			padding-right:50px;*/
-			text-align: center;
+			display: block;
 			margin:0 auto;
-
 		}
 
 		.pata {
 			font-size: 0.8em;
 			text-align: center;
 			color: #adadad;
-			width: 980px;
+			width: 100%;
 			margin: 0 auto;
 			padding-top:20px;
 
@@ -167,6 +141,12 @@
 
 			<a href="http://www.linkedin.com/pub/santiago-bustamante/4b/107/20a" target="_blank" class="boton">
 			<img src="images/btn_linkedin.png" width="27" height="27"></a>
+			
+			<a href="http://www.github.com/busta117" target="_blank" class="boton">
+			<img src="images/btn_github.png" width="27" height="27"></a>
+			
+			<a href="http://stackoverflow.com/users/1499250" target="_blank" class="boton">
+			<img src="images/btn_stackoverflow.png" width="27" height="27"></a>
 		
 		</div>
 
@@ -176,20 +156,17 @@
 
 		<div class="contacto">
 			<div class="contenedor">
-
-				 <div><h3 class="texto">Do you wanna know more about me? </h3></div>
-				 <div>
-				<a href="mailto:busta117@gmail.com?Subject=Contact" class="mailto">
-				<img src="images/btn_contacto.png"></a>
-			</div>
+				<h3 class="texto">Do you wanna know more about me? </h3>
+				<a href="mailto:busta117@gmail.com?Subject=Contact" >
+				<img src="images/btn_contacto.png" class="mailto"></a>
 			</div>
 
 		</div>
 
 		<div class="pata">
-
+			<p></p>
 			<p>Made in Medellín, Colombia</p>
-			<p>© 2014 Busta117 - All rights reserved.</p>
+			<p></p>
 		</div>
 
 
