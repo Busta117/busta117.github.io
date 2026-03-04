@@ -87,14 +87,14 @@
 
   .preview-wrapper {
     width: 100%;
-    max-width: 1060px;
+    max-width: 700px;
     overflow-x: auto;
   }
 
   /* ===== CERTIFICATE ===== */
   #certificate {
-    width: 287mm;
-    height: 200mm;
+    width: 270mm;
+    height: 188mm;
     background: white;
     position: relative;
     overflow: hidden;
@@ -284,34 +284,156 @@
       justify-content: center;
       min-height: 100vh;
     }
-    h1, .controls { display: none; }
+    h1, .controls, .section-label { display: none; }
     .preview-wrapper {
       display: flex;
       align-items: center;
       justify-content: center;
+      max-width: none !important;
+      overflow: visible !important;
     }
-    #certificate {
+    .preview-wrapper.print-hidden { display: none !important; }
+    #certificate, #certificate2 {
       display: flex !important;
       transform: none !important;
       margin: auto !important;
       -webkit-print-color-adjust: exact !important;
       print-color-adjust: exact !important;
     }
+    #certificate2 {
+      display: block !important;
+    }
     #certificate.scanned {
-      transform: rotate(0.6deg) !important;
-      filter: sepia(0.08) brightness(0.94) contrast(0.9) blur(0.5px) !important;
-      background-color: #fdfcf9 !important;
+      transform: rotate(-0.6deg) !important;
+      filter: sepia(0.06) brightness(1.25) contrast(0.78) saturate(0.55) blur(0.9px) !important;
+      background-color: #ffffff !important;
+    }
+    #certificate2.scanned {
+      transform: rotate(1.1deg) !important;
+      filter: sepia(0.06) brightness(1.30) contrast(0.75) saturate(0.50) blur(0.9px) !important;
+      background-color: #ffffff !important;
     }
     @page {
-      size: A4 landscape;
-      margin: 5mm;
+      margin: 0;
     }
   }
 
+  /* ===== CERTIFICATE 2 (Portrait) ===== */
+  #certificate2 {
+    width: 185mm;
+    height: 262mm;
+    background: white;
+    position: relative;
+    overflow: hidden;
+    font-family: 'Montserrat', sans-serif;
+    transform-origin: top left;
+  }
+
+  .cert2-top-stripe {
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 16px;
+    background: #0073FF;
+  }
+  .cert2-bottom-stripe {
+    position: absolute;
+    bottom: 0; left: 0; right: 0;
+    height: 16px;
+    background: #0073FF;
+  }
+
+  .cert2-header {
+    position: relative;
+    padding: 20mm 20mm 0 20mm;
+    display: flex;
+    align-items: center;
+    gap: 12mm;
+  }
+
+  .cert2-logo img {
+    height: 22mm;
+  }
+
+  .cert2-swoosh {
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 55mm;
+    z-index: 0;
+    pointer-events: none;
+  }
+
+  .cert2-body {
+    position: relative;
+    z-index: 2;
+    padding: 18mm 22mm 0 22mm;
+    text-align: justify;
+    font-size: 11.5pt;
+    color: #2a2a2a;
+    line-height: 1.7;
+  }
+
+  .cert2-body p {
+    margin-bottom: 6mm;
+  }
+
+  .cert2-body strong {
+    color: #1a2e44;
+    font-weight: 700;
+  }
+
+  .cert2-date-line {
+    text-align: left;
+    margin-top: 10mm;
+    font-size: 11.5pt;
+    color: #2a2a2a;
+  }
+
+  .cert2-signature-block {
+    position: absolute;
+    bottom: 26mm;
+    left: 18mm;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .cert2-sig-line {
+    width: 60mm;
+    height: 1px;
+    background: #1a2e44;
+    margin-top: 1mm;
+  }
+
+  .cert2-sig-name {
+    font-size: 9pt;
+    font-weight: 700;
+    color: #1a2e44;
+    margin-top: 2mm;
+  }
+
+  .cert2-sig-title {
+    font-size: 8pt;
+    color: #445566;
+    font-weight: 500;
+  }
+
+  .cert2-footer {
+    position: absolute;
+    bottom: 8mm;
+    left: 0; right: 0;
+    text-align: center;
+    font-size: 7.5pt;
+    color: #667788;
+    line-height: 1.6;
+    padding: 0 15mm;
+    border-top: 1px solid #dde4ea;
+    padding-top: 3mm;
+    margin: 0 20mm;
+  }
+
   /* Scanned look */
-  #certificate.scanned {
-    transform: rotate(0.6deg) !important;
-    filter: sepia(0.08) brightness(0.94) contrast(0.9) blur(0.5px);
+  #certificate.scanned, #certificate2.scanned {
+    transform: rotate(-0.6deg) !important;
     box-shadow:
       inset 0 0 40px rgba(0,0,0,0.1),
       inset 0 0 100px rgba(0,0,0,0.04),
@@ -327,7 +449,13 @@
       url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='t'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23t)' opacity='0.03'/%3E%3C/svg%3E");
     background-color: #fdfcf9;
   }
-  #certificate.scanned::before {
+  #certificate.scanned {
+    filter: sepia(0.06) brightness(1.25) contrast(0.78) saturate(0.55) blur(0.9px);
+  }
+  #certificate2.scanned {
+    filter: sepia(0.06) brightness(1.30) contrast(0.75) saturate(0.50) blur(0.9px);
+  }
+  #certificate.scanned::before, #certificate2.scanned::before {
     content: '';
     position: absolute;
     top: 0; left: 0; right: 0; bottom: 0;
@@ -336,7 +464,7 @@
     z-index: 100;
     pointer-events: none;
   }
-  #certificate.scanned::after {
+  #certificate.scanned::after, #certificate2.scanned::after {
     content: '';
     position: absolute;
     top: 0; left: 0; right: 0; bottom: 0;
@@ -358,28 +486,45 @@
 
 <div class="controls">
   <div class="field">
-    <label>Nombre del equipo</label>
-    <input type="text" id="inp-name" value="Santiago Bustamante &amp; Crispeta" placeholder="Nombre completo">
+    <label>Handler</label>
+    <input type="text" id="inp-handler" value="Santiago Bustamante" placeholder="Nombre del handler">
   </div>
   <div class="field">
-    <label>Fecha de certificación</label>
-    <input type="date" id="inp-date" value="2020-06-09">
+    <label>Perro</label>
+    <input type="text" id="inp-dog" value="Crispeta" placeholder="Nombre del perro">
+  </div>
+  <div class="field">
+    <label>Fecha diploma / curso</label>
+    <input type="date" id="inp-date" value="2020-03-16">
+  </div>
+  <div class="field">
+    <label>Fecha firma certificado</label>
+    <input type="date" id="inp-date-cert">
   </div>
   <div class="field" style="flex:0">
     <label>&nbsp;</label>
-    <button class="btn-generate" onclick="updateCert()">Actualizar vista previa</button>
-  </div>
-  <div class="field" style="flex:0">
-    <label>&nbsp;</label>
-    <button class="btn-pdf" onclick="downloadPDF()">⬇ Descargar PDF</button>
-  </div>
-  <div class="field" style="flex:0">
-    <label>&nbsp;</label>
-    <button class="btn-pdf" onclick="downloadScanned()" style="background:#8a6d3b;">⬇ Descargar Escaneado</button>
+    <button class="btn-generate" onclick="updateCert()">Actualizar</button>
   </div>
 </div>
 
-<div class="preview-wrapper">
+<div class="controls" style="padding:16px 28px; gap:12px;">
+  <div style="display:flex; gap:10px; align-items:center; flex-wrap:wrap;">
+    <span style="font-size:0.72rem; font-weight:700; color:#1a2e44; text-transform:uppercase; letter-spacing:0.06em;">Diploma:</span>
+    <button class="btn-pdf" onclick="downloadPDF()">⬇ PDF</button>
+    <button class="btn-pdf" onclick="downloadScanned()" style="background:#8a6d3b;">⬇ Escaneado</button>
+  </div>
+  <div style="width:1px; height:28px; background:#dde4ea; margin:0 6px;"></div>
+  <div style="display:flex; gap:10px; align-items:center; flex-wrap:wrap;">
+    <span style="font-size:0.72rem; font-weight:700; color:#1a2e44; text-transform:uppercase; letter-spacing:0.06em;">Certificado:</span>
+    <button class="btn-pdf" onclick="downloadCertificate()" style="background:#2e7d32;">⬇ PDF</button>
+    <button class="btn-pdf" onclick="downloadCertificateScanned()" style="background:#5d4037;">⬇ Escaneado</button>
+  </div>
+</div>
+
+<h2 class="section-label" style="font-size:1rem; color:#5a7a8a; font-weight:600; letter-spacing:0.06em; text-transform:uppercase;">Diploma</h2>
+
+<div class="preview-wrapper" id="wrapper-diploma">
+  <div id="cert1-frame">
   <div id="certificate">
     <div class="cert-top-stripe"></div>
     <div class="cert-bottom-stripe"></div>
@@ -454,20 +599,129 @@
       </div>
     </div>
   </div>
+  </div>
+</div>
+
+<h2 class="section-label" style="font-size:1rem; color:#5a7a8a; font-weight:600; letter-spacing:0.06em; text-transform:uppercase; margin-top:20px;">Certificado</h2>
+
+<div class="preview-wrapper" id="wrapper-cert">
+  <div id="cert2-frame">
+  <div id="certificate2">
+    <div class="cert2-top-stripe"></div>
+    <div class="cert2-bottom-stripe"></div>
+
+    <!-- Decorative gold swoosh at top -->
+    <div class="cert2-swoosh">
+      <svg viewBox="0 0 800 220" preserveAspectRatio="none" width="100%" height="100%">
+        <path d="M0,0 L800,0 L800,80 C700,120 550,140 400,110 C250,80 100,100 0,130 Z" fill="#FECB00" opacity="0.25"/>
+        <path d="M0,0 L800,0 L800,50 C650,90 450,100 250,75 C120,58 40,70 0,90 Z" fill="#c8a200" opacity="0.15"/>
+      </svg>
+    </div>
+
+    <!-- Header with logos -->
+    <div class="cert2-header">
+      <div class="cert2-logo">
+        <img src="canine1.png" alt="Canine Companions">
+      </div>
+      <div style="flex:1;"></div>
+      <div class="cert2-logo">
+        <img src="adi_logo.png" alt="Assistance Dogs International" style="height:24mm;">
+      </div>
+    </div>
+
+    <!-- Body text -->
+    <div class="cert2-body">
+      <p>
+        The <strong>Canine Companions Southeast Region Training Center</strong> certifies that
+        <strong id="cert2-dog">Crispeta</strong>, a Jack Russell Terrier, identified with Microchip
+        No. 963003100086795, has completed and passed all practical aptitude tests as a
+        <strong>MEDICAL ALERT SERVICE DOG</strong> for persons with diabetes and epilepsy
+        since <strong id="cert2-date-since">June 9, 2020</strong> until the date of issuance
+        of this document.
+      </p>
+
+      <p>
+        Additionally, the handler <strong id="cert2-name">Santiago Bustamante</strong>,
+        has obtained certification in theoretical and practical instruction training for
+        <strong>MEDICAL ALERT SERVICE DOG</strong>.
+      </p>
+
+      <p>
+        <strong>Canine Companions</strong> is an accredited member of
+        <strong>Assistance Dogs International (ADI)</strong>, the leading authority for
+        organizations that train and place assistance dogs.
+      </p>
+
+      <p class="cert2-date-line">
+        Signed on <strong id="cert2-date-signed">June 9, 2020</strong>.
+      </p>
+    </div>
+
+    <!-- Signature block -->
+    <div class="cert2-signature-block">
+      <svg width="340" height="100" viewBox="0 0 340 110" fill="none" style="margin-bottom:-10mm; margin-left:2mm;">
+        <path d="M50,25 C30,18 12,30 15,50 C18,65 35,68 50,60 C55,57 56,50 52,46
+                 C52,40 50,48 52,52 C54,48 58,38 62,34 C66,30 68,38 66,46
+                 C64,52 60,54 62,49 C64,42 70,34 72,46
+                 C73,52 68,54 72,46 L74,26 C74,26 70,40 76,40
+                 C82,40 78,52 76,52
+                 C76,52 78,26 82,26 C86,26 82,52 82,52
+                 C82,52 86,38 90,36 C94,34 92,52 92,52
+                 C92,52 94,36 100,34 C106,32 104,52 102,54 C100,56 96,56 98,52
+                 C100,46 108,34 112,36 C116,38 112,54 112,54"
+                 stroke="#1a2e44" stroke-width="1.8" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+        <path d="M140,55 C138,45 135,30 130,16 C132,14 142,12 146,22 C148,28 140,32 136,34
+                 C136,34 148,36 150,45 C152,52 142,58 136,55"
+                 stroke="#1a2e44" stroke-width="1.6" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+        <path d="M140,54 C142,46 148,38 152,40 C156,42 150,54 150,54
+                 C152,46 158,36 164,38 C168,40 162,54 162,54
+                 C162,48 166,36 172,34 C178,32 176,46 172,52 C168,58 162,54 162,54"
+                 stroke="#1a2e44" stroke-width="1.8" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+        <path d="M176,20 C176,20 174,54 174,56 C176,48 182,36 188,38 C192,40 186,54 186,54
+                 C188,46 194,36 200,38 C204,40 198,54 196,56 C194,58 190,52 194,46
+                 C198,38 206,36 210,42 C213,48 206,62 200,66 C194,70 188,66 186,60"
+                 stroke="#1a2e44" stroke-width="1.8" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+      <div class="cert2-sig-line"></div>
+      <div class="cert2-sig-name">Caitlin Bradley</div>
+      <div class="cert2-sig-title">Regional Executive Director</div>
+    </div>
+
+    <!-- Footer -->
+    <div class="cert2-footer">
+      Canine Companions &nbsp;|&nbsp; 8150 Clarcona Ocoee Road, Orlando, FL 32818<br>
+      Phone: (407) 522-3300 &nbsp;|&nbsp; Fax: (407) 522-3347 &nbsp;|&nbsp; canine.org
+    </div>
+  </div>
+  </div>
 </div>
 
 <script>
+  /* --- Scale diploma (landscape) --- */
   function scaleCert() {
     const cert = document.getElementById('certificate');
     const wrapper = cert.parentElement;
     const ww = wrapper.clientWidth - 32;
-    const certW = 297 * 3.7795;
+    const certW = 270 * 3.7795;
     const scale = Math.min(1, ww / certW);
     cert.style.transform = `scale(${scale})`;
-    cert.style.marginBottom = `${(210 * 3.7795 * scale) - (210 * 3.7795)}px`;
+    cert.style.marginBottom = `${(188 * 3.7795 * scale) - (188 * 3.7795)}px`;
   }
-  window.addEventListener('resize', scaleCert);
+
+  /* --- Scale certificate (portrait) --- */
+  function scaleCert2() {
+    const cert = document.getElementById('certificate2');
+    const wrapper = cert.parentElement;
+    const ww = wrapper.clientWidth - 32;
+    const certW = 185 * 3.7795;
+    const scale = Math.min(1, ww / certW);
+    cert.style.transform = `scale(${scale})`;
+    cert.style.marginBottom = `${(262 * 3.7795 * scale) - (262 * 3.7795)}px`;
+  }
+
+  window.addEventListener('resize', function() { scaleCert(); scaleCert2(); });
   scaleCert();
+  scaleCert2();
 
   function formatDate(dateStr) {
     if (!dateStr) return '';
@@ -477,22 +731,91 @@
     return `${months[parseInt(m)-1]} ${parseInt(d)}, ${y}`;
   }
 
+  // Set default cert sign date to today
+  (function() {
+    var today = new Date();
+    var y = today.getFullYear();
+    var m = String(today.getMonth() + 1).padStart(2, '0');
+    var d = String(today.getDate()).padStart(2, '0');
+    document.getElementById('inp-date-cert').value = y + '-' + m + '-' + d;
+  })();
+
   function updateCert() {
-    const name = document.getElementById('inp-name').value || 'Nombre del equipo';
-    const date = document.getElementById('inp-date').value;
-    document.getElementById('cert-name').textContent = name;
-    document.getElementById('cert-date').textContent = formatDate(date);
+    var handler = document.getElementById('inp-handler').value || 'Handler';
+    var dog = document.getElementById('inp-dog').value || 'Dog';
+    var date = document.getElementById('inp-date').value;
+    var dateCert = document.getElementById('inp-date-cert').value;
+    var formatted = formatDate(date);
+    var formattedCert = formatDate(dateCert);
+
+    // Diploma
+    document.getElementById('cert-name').textContent = handler + ' & ' + dog;
+    document.getElementById('cert-date').textContent = formatted;
+
+    // Certificate
+    document.getElementById('cert2-name').textContent = handler;
+    document.getElementById('cert2-dog').textContent = dog;
+    document.getElementById('cert2-date-since').textContent = formatted;
+    document.getElementById('cert2-date-signed').textContent = formattedCert;
+  }
+
+  /* --- Print helpers --- */
+  function printDoc(targetId, orientation, scanned) {
+    var diploma = document.getElementById('wrapper-diploma');
+    var certWrap = document.getElementById('wrapper-cert');
+    var target = document.getElementById(targetId);
+
+    // Hide the other doc
+    if (targetId === 'certificate') {
+      certWrap.classList.add('print-hidden');
+    } else {
+      diploma.classList.add('print-hidden');
+    }
+
+    // Inject page override
+    var style = document.createElement('style');
+    style.id = 'print-override';
+    var css = '@media print { @page { size: ' + orientation + '; margin: 0; }';
+    if (!scanned && targetId === 'certificate2') {
+      css += ' #certificate2 { width: 100vw !important; height: 100vh !important; }';
+    }
+    if (scanned && targetId === 'certificate') {
+      css += ' #wrapper-diploma { display: flex; align-items: center; justify-content: center; min-height: 100vh; } #cert1-frame { background: #e8ddd0 url("data:image/svg+xml,%3Csvg xmlns=\'http://www.w3.org/2000/svg\' width=\'200\' height=\'200\'%3E%3Cfilter id=\'w\'%3E%3CfeTurbulence type=\'fractalNoise\' baseFrequency=\'0.02,0.15\' numOctaves=\'5\' seed=\'2\' stitchTiles=\'stitch\'/%3E%3CfeColorMatrix type=\'saturate\' values=\'0\'/%3E%3C/filter%3E%3Crect width=\'100%25\' height=\'100%25\' filter=\'url(%23w)\' opacity=\'0.15\'/%3E%3C/svg%3E") !important; width: 270mm; height: 188mm; overflow: hidden; -webkit-print-color-adjust: exact !important; print-color-adjust: exact !important; }';
+    }
+    if (scanned && targetId === 'certificate2') {
+      css += ' #wrapper-cert { display: flex; align-items: center; justify-content: center; min-height: 100vh; } #cert2-frame { background: #8b6342 url("data:image/svg+xml,%3Csvg xmlns=\'http://www.w3.org/2000/svg\' width=\'200\' height=\'200\'%3E%3Cfilter id=\'w\'%3E%3CfeTurbulence type=\'fractalNoise\' baseFrequency=\'0.02,0.15\' numOctaves=\'5\' seed=\'2\' stitchTiles=\'stitch\'/%3E%3CfeColorMatrix type=\'saturate\' values=\'0\'/%3E%3C/filter%3E%3Crect width=\'100%25\' height=\'100%25\' filter=\'url(%23w)\' opacity=\'0.15\'/%3E%3C/svg%3E") !important; width: 185mm; height: 262mm; overflow: hidden; -webkit-print-color-adjust: exact !important; print-color-adjust: exact !important; }';
+    }
+    css += ' }';
+    style.textContent = css;
+    document.head.appendChild(style);
+
+    if (scanned) target.classList.add('scanned');
+
+    window.print();
+
+    // Cleanup after print dialog closes
+    setTimeout(function() {
+      if (scanned) target.classList.remove('scanned');
+      style.remove();
+      diploma.classList.remove('print-hidden');
+      certWrap.classList.remove('print-hidden');
+    }, 200);
   }
 
   function downloadPDF() {
-    window.print();
+    printDoc('certificate', 'landscape', false);
   }
 
   function downloadScanned() {
-    var cert = document.getElementById('certificate');
-    cert.classList.add('scanned');
-    window.print();
-    cert.classList.remove('scanned');
+    printDoc('certificate', 'landscape', true);
+  }
+
+  function downloadCertificate() {
+    printDoc('certificate2', 'portrait', false);
+  }
+
+  function downloadCertificateScanned() {
+    printDoc('certificate2', 'portrait', true);
   }
 
   updateCert();
