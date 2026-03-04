@@ -297,10 +297,58 @@
       -webkit-print-color-adjust: exact !important;
       print-color-adjust: exact !important;
     }
+    #certificate.scanned {
+      transform: rotate(0.6deg) !important;
+      filter: sepia(0.08) brightness(0.94) contrast(0.9) blur(0.5px) !important;
+      background-color: #fdfcf9 !important;
+    }
     @page {
       size: A4 landscape;
       margin: 5mm;
     }
+  }
+
+  /* Scanned look */
+  #certificate.scanned {
+    transform: rotate(0.6deg) !important;
+    filter: sepia(0.08) brightness(0.94) contrast(0.9) blur(0.5px);
+    box-shadow:
+      inset 0 0 40px rgba(0,0,0,0.1),
+      inset 0 0 100px rgba(0,0,0,0.04),
+      /* sombras en esquinas simulando arrugado leve en papel rigido */
+      inset 12px 10px 18px -10px rgba(0,0,0,0.12),
+      inset -8px -12px 18px -10px rgba(0,0,0,0.1),
+      inset -10px 8px 15px -10px rgba(0,0,0,0.06),
+      inset 6px -8px 15px -10px rgba(0,0,0,0.08),
+      /* sombra externa como papel elevado del scanner */
+      2px 3px 8px rgba(0,0,0,0.15);
+    background-image:
+      /* textura sutil de papel rigido tipo diploma */
+      url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='t'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23t)' opacity='0.03'/%3E%3C/svg%3E");
+    background-color: #fdfcf9;
+  }
+  #certificate.scanned::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0; bottom: 0;
+    /* grano de scanner */
+    background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='n'%3E%3CfeTurbulence baseFrequency='0.65' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
+    z-index: 100;
+    pointer-events: none;
+  }
+  #certificate.scanned::after {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0; bottom: 0;
+    /* viñeta + marcas sutiles de arrugado en esquinas */
+    background:
+      radial-gradient(ellipse at center, transparent 55%, rgba(0,0,0,0.08) 100%),
+      radial-gradient(circle at 2% 3%, rgba(0,0,0,0.06) 0%, transparent 8%),
+      radial-gradient(circle at 97% 5%, rgba(0,0,0,0.04) 0%, transparent 6%),
+      radial-gradient(circle at 3% 96%, rgba(0,0,0,0.05) 0%, transparent 7%),
+      radial-gradient(circle at 96% 97%, rgba(0,0,0,0.07) 0%, transparent 9%);
+    z-index: 101;
+    pointer-events: none;
   }
 </style>
 </head>
@@ -324,6 +372,10 @@
   <div class="field" style="flex:0">
     <label>&nbsp;</label>
     <button class="btn-pdf" onclick="downloadPDF()">⬇ Descargar PDF</button>
+  </div>
+  <div class="field" style="flex:0">
+    <label>&nbsp;</label>
+    <button class="btn-pdf" onclick="downloadScanned()" style="background:#8a6d3b;">⬇ Descargar Escaneado</button>
   </div>
 </div>
 
@@ -434,6 +486,13 @@
 
   function downloadPDF() {
     window.print();
+  }
+
+  function downloadScanned() {
+    var cert = document.getElementById('certificate');
+    cert.classList.add('scanned');
+    window.print();
+    cert.classList.remove('scanned');
   }
 
   updateCert();
