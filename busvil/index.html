@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Busvil LLC</title>
+  <meta name="description" content="Busvil LLC — Coming Soon">
+
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Jost:wght@300;400;500&display=swap" rel="stylesheet">
+
+  <!-- Favicon (uses logo) -->
+  <link rel="icon" type="image/png" href="logo.png">
+
+  <style>
+    *,
+    *::before,
+    *::after {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    :root {
+      --color-bg: #FAF7F2;
+      --color-ink: #1C1917;
+      --color-stone: #57534E;
+      --color-pebble: #A8A29E;
+      --color-border: #E2DCD4;
+      --color-copper: #B8956A;
+
+      --font-body: 'Jost', system-ui, -apple-system, sans-serif;
+
+      --ease-out: cubic-bezier(0.23, 1, 0.32, 1);
+    }
+
+    html {
+      height: 100%;
+    }
+
+    body {
+      min-height: 100%;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      background-color: var(--color-bg);
+      color: var(--color-ink);
+      font-family: var(--font-body);
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+    }
+
+    /* --- Main content --- */
+    .container {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 32px 24px;
+      width: 100%;
+    }
+
+    .logo-wrapper {
+      opacity: 0;
+      transform: scale(0.96);
+      animation: logoReveal 800ms var(--ease-out) 200ms forwards;
+    }
+
+    .logo {
+      width: clamp(180px, 40vw, 320px);
+      height: auto;
+      display: block;
+      transition: transform 250ms var(--ease-out),
+                  filter 250ms var(--ease-out);
+      cursor: pointer;
+    }
+
+    @media (hover: hover) and (pointer: fine) {
+      .logo:hover {
+        transform: scale(1.04) translateY(-2px);
+        filter: drop-shadow(0 8px 20px rgba(28, 25, 23, 0.10));
+      }
+    }
+
+    @keyframes logoReveal {
+      to {
+        opacity: 1;
+        transform: scale(1);
+      }
+    }
+
+    /* --- Footer --- */
+    footer {
+      width: 100%;
+      padding: 24px;
+      text-align: center;
+      opacity: 0;
+      animation: fadeIn 600ms var(--ease-out) 600ms forwards;
+    }
+
+    footer p {
+      font-size: 0.8125rem;
+      font-weight: 300;
+      color: var(--color-pebble);
+      letter-spacing: 0.04em;
+    }
+
+    @keyframes fadeIn {
+      to {
+        opacity: 1;
+      }
+    }
+
+    /* --- Reduced motion --- */
+    @media (prefers-reduced-motion: reduce) {
+      .logo-wrapper,
+      footer {
+        animation: none;
+        opacity: 1;
+        transform: none;
+      }
+      .logo {
+        transition: none;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <main class="container">
+    <div class="logo-wrapper">
+      <img
+        src="logo.png"
+        alt="Busvil LLC"
+        class="logo"
+        width="320"
+        height="auto"
+      >
+    </div>
+  </main>
+
+  <footer>
+    <p>&copy; 2025 Busvil LLC</p>
+  </footer>
+
+</body>
+</html>
