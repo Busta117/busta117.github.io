@@ -586,6 +586,7 @@
 
     // Expose analytics helpers to global scope
     window._analytics = analytics;
+    window._logEvent = logEvent;
     window._utmSource = utmSource;
     window._utmMedium = utmMedium;
     window._utmCampaign = utmCampaign;
@@ -622,18 +623,13 @@
     }
 
     function trackClick(linkName) {
-      if (!window._analytics) return;
-      const { logEvent } = window; // not available here — use stored ref
-      // logEvent exposed via module above, access through custom event
-      document.dispatchEvent(new CustomEvent('bn:track', {
-        detail: { event: 'link_click', params: { link_name: linkName, ...getUtm() } }
-      }));
+      if (!window._analytics || !window._logEvent) return;
+      window._logEvent(window._analytics, 'link_click', { link_name: linkName, ...getUtm() });
     }
 
     function trackShare(method) {
-      document.dispatchEvent(new CustomEvent('bn:track', {
-        detail: { event: 'share', params: { link_name: currentLink?.id || '', method, ...getUtm() } }
-      }));
+      if (!window._analytics || !window._logEvent) return;
+      window._logEvent(window._analytics, 'share', { link_name: currentLink?.id || '', method, ...getUtm() });
     }
 
     function openShare(id, name, url) {
@@ -687,14 +683,6 @@
       openShare('page', '@barksnbites', window.location.href.split('?')[0]);
     }
 
-    // Listen to analytics events from module scope
-    document.addEventListener('bn:track', (e) => {
-      if (!window._analytics) return;
-      // Use raw gtag if available (Firebase Analytics registers it)
-      if (typeof gtag === 'function') {
-        gtag('event', e.detail.event, e.detail.params);
-      }
-    });
 
     // Keyboard close
     document.addEventListener('keydown', (e) => {
