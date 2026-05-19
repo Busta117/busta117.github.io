@@ -1,0 +1,706 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>@barksnbites</title>
+  <meta name="description" content="🍦 Helados 100% naturales para 🐶🐾 | Hechos en Barcelona | ¡Visítanos!">
+  <meta property="og:title" content="@barksnbites">
+  <meta property="og:description" content="🍦 Helados 100% naturales para 🐶🐾 | Hechos en Barcelona | ¡Visítanos!">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      min-height: 100dvh;
+      background: linear-gradient(160deg, #ED6565 0%, #F9A09B 100%);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: flex-start;
+      font-family: system-ui, -apple-system, sans-serif;
+      padding: 20px 16px 40px;
+    }
+
+    /* Top bar */
+    .topbar {
+      width: 100%;
+      max-width: 480px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 8px;
+    }
+
+    .topbar-btn {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      background: rgba(255,255,255,0.15);
+      border: none;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      transition: background 0.2s;
+    }
+    .topbar-btn:hover { background: rgba(255,255,255,0.25); }
+
+    /* Card */
+    .card {
+      width: 100%;
+      max-width: 480px;
+      background: #F3F1EC;
+      border-radius: 24px;
+      padding: 32px 20px 40px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 0;
+    }
+
+    /* Profile */
+    .avatar {
+      width: 88px;
+      height: 88px;
+      border-radius: 50%;
+      overflow: hidden;
+      background: #fff;
+      border: 3px solid #ED6565;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 14px;
+    }
+    .avatar svg {
+      width: 68px;
+      height: 68px;
+    }
+
+    .handle {
+      font-size: 20px;
+      font-weight: 700;
+      color: #111225;
+      margin-bottom: 6px;
+      letter-spacing: -0.3px;
+    }
+
+    .bio {
+      font-size: 13px;
+      color: #57534e;
+      text-align: center;
+      line-height: 1.5;
+      margin-bottom: 16px;
+      max-width: 300px;
+    }
+
+    /* Social icons row */
+    .socials {
+      display: flex;
+      gap: 12px;
+      margin-bottom: 24px;
+    }
+
+    .social-icon {
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      background: rgba(17,18,37,0.08);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-decoration: none;
+      color: #111225;
+      transition: background 0.2s, transform 0.15s;
+    }
+    .social-icon:hover { background: rgba(17,18,37,0.15); transform: scale(1.08); }
+
+    /* Link buttons */
+    .links {
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .link-row {
+      position: relative;
+      display: flex;
+      align-items: center;
+      background: #fff;
+      border: 1.5px solid rgba(237,101,101,0.35);
+      border-radius: 12px;
+      overflow: visible;
+      transition: border-color 0.2s, transform 0.15s;
+    }
+    .link-row:hover { border-color: #ED6565; transform: translateY(-1px); }
+
+    .link-main {
+      flex: 1;
+      display: flex;
+      align-items: center;
+      gap: 0;
+      padding: 0;
+      text-decoration: none;
+      min-height: 56px;
+    }
+
+    .link-icon-wrap {
+      width: 54px;
+      min-width: 54px;
+      height: 56px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-right: 1px solid rgba(237,101,101,0.15);
+    }
+
+    .link-icon-wrap img,
+    .link-icon-wrap svg {
+      width: 30px;
+      height: 30px;
+      border-radius: 6px;
+      object-fit: cover;
+    }
+
+    .link-label {
+      flex: 1;
+      text-align: center;
+      font-size: 15px;
+      font-weight: 600;
+      color: #ED6565;
+      padding-right: 48px;
+    }
+
+    .link-menu-btn {
+      position: absolute;
+      right: 0;
+      top: 0;
+      width: 48px;
+      height: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: none;
+      border: none;
+      cursor: pointer;
+      color: #a8a29e;
+      border-radius: 0 12px 12px 0;
+      transition: background 0.15s, color 0.15s;
+      z-index: 1;
+    }
+    .link-menu-btn:hover { background: rgba(237,101,101,0.07); color: #ED6565; }
+
+    /* Share popup overlay */
+    .overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(17,18,37,0.55);
+      z-index: 100;
+      display: flex;
+      align-items: flex-end;
+      justify-content: center;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.2s;
+    }
+    .overlay.open {
+      opacity: 1;
+      pointer-events: all;
+    }
+
+    .share-sheet {
+      width: 100%;
+      max-width: 480px;
+      background: #F3F1EC;
+      border-radius: 20px 20px 0 0;
+      padding: 24px 20px 36px;
+      transform: translateY(100%);
+      transition: transform 0.28s cubic-bezier(0.32, 0.72, 0, 1);
+    }
+    .overlay.open .share-sheet {
+      transform: translateY(0);
+    }
+
+    .share-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 18px;
+    }
+    .share-title {
+      font-size: 16px;
+      font-weight: 700;
+      color: #111225;
+    }
+    .share-close {
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      background: rgba(17,18,37,0.08);
+      border: none;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #57534e;
+    }
+    .share-close:hover { background: rgba(17,18,37,0.15); }
+
+    .share-preview {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      background: #fff;
+      border-radius: 12px;
+      padding: 12px 14px;
+      margin-bottom: 20px;
+      border: 1px solid rgba(17,18,37,0.08);
+    }
+    .share-preview-icon {
+      width: 40px;
+      height: 40px;
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: #fde8e8;
+      flex-shrink: 0;
+    }
+    .share-preview-text { flex: 1; min-width: 0; }
+    .share-preview-name {
+      font-size: 14px;
+      font-weight: 600;
+      color: #111225;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+    .share-preview-url {
+      font-size: 12px;
+      color: #a8a29e;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .share-actions {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .share-btn-primary {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      width: 100%;
+      padding: 13px 16px;
+      background: #111225;
+      color: #F3F1EC;
+      border: none;
+      border-radius: 12px;
+      font-size: 14px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: opacity 0.15s;
+    }
+    .share-btn-primary:hover { opacity: 0.88; }
+    .share-btn-primary.copied { background: #22c55e; }
+
+    .share-icons-row {
+      display: flex;
+      gap: 10px;
+      justify-content: flex-start;
+    }
+
+    .share-icon-btn {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 5px;
+      background: none;
+      border: none;
+      cursor: pointer;
+      text-decoration: none;
+      color: #57534e;
+    }
+    .share-icon-circle {
+      width: 48px;
+      height: 48px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: #fff;
+      border: 1px solid rgba(17,18,37,0.1);
+      transition: transform 0.15s;
+    }
+    .share-icon-btn:hover .share-icon-circle { transform: scale(1.06); }
+    .share-icon-label { font-size: 11px; color: #a8a29e; }
+
+    /* Global share button */
+    .global-share {
+      margin-top: 20px;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Top bar -->
+  <div class="topbar">
+    <!-- BarksnBites snowflake/logo icon -->
+    <button class="topbar-btn" aria-label="BarksnBites" onclick="void(0)">
+      <svg width="22" height="22" viewBox="0 0 3551 3551" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <mask id="tm" style="mask-type:luminance" maskUnits="userSpaceOnUse" x="0" y="-1" width="3551" height="3552">
+          <path d="M0 0.000104298H3551V3551H0V0.000104298Z" fill="white"/>
+        </mask>
+        <g mask="url(#tm)">
+          <path d="M2894.97 2904.99C2994.44 2821.7 3180.81 2896.38 3254.66 2789.71C3276.14 2758.69 3281.69 2718.21 3305.63 2689.03C3348.01 2637.35 3435.46 2643.84 3484.64 2689.1C3533.81 2734.37 3550.71 2805.44 3551 2872.27C3551.91 3089.61 3385.49 3296.16 3172.93 3341.5C3108.19 3355.3 3041.66 3345.76 2979.15 3324C2778.6 3254.2 2807.83 2977.95 2894.97 2904.99Z" fill="white"/>
+          <path d="M875.294 358.245C756.95 496.694 852.369 650.515 836.523 794.376C1028.18 795.328 1115.54 686.919 1084.82 492.16C1065.19 367.74 998.636 307.56 875.294 358.245Z" fill="white"/>
+          <path d="M2125.76 2807.6C2076.64 2867.22 2023.83 2884.82 1904.28 2884.82H1310.28V2381.64H1890.07C2087.15 2381.64 2185.68 2466.27 2185.68 2638.63C2185.68 2705.35 2164.68 2761.57 2125.76 2807.6ZM2027.22 1674.28C2027.22 1808.04 1932.39 1899.47 1798.64 1899.47H1310.28V1473.81H1777.33C1921.89 1473.81 2027.22 1558.14 2027.22 1674.28ZM2555.11 2209.28C2474.19 2138.85 2407.46 2103.64 2259.5 2061.32C2460.28 1938.38 2537.5 1808.04 2537.5 1593.36C2537.5 1417.6 2467.09 1262.54 2340.44 1153.49C2217.49 1047.85 2080.05 1005.85 1854.86 1005.85H1524.66C1521.88 843.372 1528.05 680.896 1501.18 519.659C1488.83 444.597 1471.53 379.418 1394.93 366.139C1317.08 352.547 1265.81 393.01 1237.08 474.562C1235.23 479.497 1231.84 483.832 1230.28 489.08C1166.97 716.723 1045.27 853.569 823.79 873.024C715.994 882.294 610.04 928.006 575.139 1079.98C560.608 1142.68 497.609 1155.35 442.001 1155.66C340.995 1155.97 239.989 1159.37 138.983 1156.59C25.9254 1153.19 -4.65322 1222.07 11.7197 1334.81C37.0496 1510.88 123.224 1635.67 264.705 1708.57C378.677 1767.26 492.348 1826.88 609.414 1876C643.713 1890.2 669.343 1908.11 687.871 1930.66L689.111 1929.74V2962.36C674.905 3243.76 798.147 3367 1079.54 3352.79H2023.83C2431.87 3352.79 2745.09 3050.39 2745.09 2656.25C2745.09 2473.08 2681.76 2321.72 2555.11 2209.28Z" fill="white"/>
+        </g>
+      </svg>
+    </button>
+    <button class="topbar-btn" aria-label="Compartir página" onclick="shareGlobal()">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/>
+        <line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/>
+      </svg>
+    </button>
+  </div>
+
+  <!-- Card -->
+  <div class="card">
+
+    <!-- Avatar -->
+    <div class="avatar">
+      <!-- icon_pink.svg inlined -->
+      <svg width="68" height="68" viewBox="0 0 3551 3551" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <mask id="m" style="mask-type:luminance" maskUnits="userSpaceOnUse" x="0" y="-1" width="3551" height="3552">
+          <path d="M0 0.000104298H3551V3551H0V0.000104298Z" fill="white"/>
+        </mask>
+        <g mask="url(#m)">
+          <path d="M2894.97 2904.99C2994.44 2821.7 3180.81 2896.38 3254.66 2789.71C3276.14 2758.69 3281.69 2718.21 3305.63 2689.03C3348.01 2637.35 3435.46 2643.84 3484.64 2689.1C3533.81 2734.37 3550.71 2805.44 3551 2872.27C3551.91 3089.61 3385.49 3296.16 3172.93 3341.5C3108.19 3355.3 3041.66 3345.76 2979.15 3324C2778.6 3254.2 2807.83 2977.95 2894.97 2904.99Z" fill="#EC6564"/>
+          <path d="M875.294 358.245C756.95 496.694 852.369 650.515 836.523 794.376C1028.18 795.328 1115.54 686.919 1084.82 492.16C1065.19 367.74 998.636 307.56 875.294 358.245Z" fill="#EC6564"/>
+          <path d="M2125.76 2807.6C2076.64 2867.22 2023.83 2884.82 1904.28 2884.82H1310.28V2381.64H1890.07C2087.15 2381.64 2185.68 2466.27 2185.68 2638.63C2185.68 2705.35 2164.68 2761.57 2125.76 2807.6ZM2027.22 1674.28C2027.22 1808.04 1932.39 1899.47 1798.64 1899.47H1310.28V1473.81H1777.33C1921.89 1473.81 2027.22 1558.14 2027.22 1674.28ZM2555.11 2209.28C2474.19 2138.85 2407.46 2103.64 2259.5 2061.32C2460.28 1938.38 2537.5 1808.04 2537.5 1593.36C2537.5 1417.6 2467.09 1262.54 2340.44 1153.49C2217.49 1047.85 2080.05 1005.85 1854.86 1005.85H1524.66C1521.88 843.372 1528.05 680.896 1501.18 519.659C1488.83 444.597 1471.53 379.418 1394.93 366.139C1317.08 352.547 1265.81 393.01 1237.08 474.562C1235.23 479.497 1231.84 483.832 1230.28 489.08C1166.97 716.723 1045.27 853.569 823.79 873.024C715.994 882.294 610.04 928.006 575.139 1079.98C560.608 1142.68 497.609 1155.35 442.001 1155.66C340.995 1155.97 239.989 1159.37 138.983 1156.59C25.9254 1153.19 -4.65322 1222.07 11.7197 1334.81C37.0496 1510.88 123.224 1635.67 264.705 1708.57C378.677 1767.26 492.348 1826.88 609.414 1876C643.713 1890.2 669.343 1908.11 687.871 1930.66L689.111 1929.74V2962.36C674.905 3243.76 798.147 3367 1079.54 3352.79H2023.83C2431.87 3352.79 2745.09 3050.39 2745.09 2656.25C2745.09 2473.08 2681.76 2321.72 2555.11 2209.28Z" fill="#EC6564"/>
+        </g>
+      </svg>
+    </div>
+
+    <div class="handle">@barksnbites</div>
+    <div class="bio">🍦 Helados 100% naturales para 🐶🐾<br>Hechos en Barcelona | ¡Visítanos!</div>
+
+    <!-- Social icons -->
+    <div class="socials">
+      <a href="https://canva.link/barksnbites-catalogo2026" target="_blank" rel="noopener" class="social-icon" aria-label="Instagram" onclick="trackClick('instagram_icon')">
+        <!-- Instagram icon -->
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <rect x="2" y="2" width="20" height="20" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/>
+        </svg>
+      </a>
+      <a href="https://wa.me/34687182618" target="_blank" rel="noopener" class="social-icon" aria-label="WhatsApp" onclick="trackClick('whatsapp_icon')">
+        <!-- WhatsApp icon -->
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
+          <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/>
+          <path d="M12 0C5.373 0 0 5.373 0 12c0 2.127.558 4.122 1.532 5.855L.057 23.487a.5.5 0 0 0 .609.609l5.632-1.475A11.94 11.94 0 0 0 12 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 22c-1.885 0-3.656-.502-5.184-1.38l-.371-.214-3.845 1.007 1.027-3.748-.232-.384A9.96 9.96 0 0 1 2 12C2 6.477 6.477 2 12 2s10 4.477 10 10-4.477 10-10 10z"/>
+        </svg>
+      </a>
+    </div>
+
+    <!-- Link buttons -->
+    <div class="links">
+
+      <!-- Catálogo -->
+      <div class="link-row" id="row-catalogo">
+        <a href="https://canva.link/barksnbites-catalogo2026" target="_blank" rel="noopener"
+           class="link-main" onclick="trackClick('catalogo')">
+          <div class="link-icon-wrap">
+            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#ED6565" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+              <rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/>
+              <rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/>
+            </svg>
+          </div>
+          <span class="link-label">Catálogo</span>
+        </a>
+        <button class="link-menu-btn" aria-label="Compartir Catálogo"
+                onclick="openShare('catalogo', 'Catálogo', 'https://canva.link/barksnbites-catalogo2026')">
+          <svg width="16" height="4" viewBox="0 0 16 4" fill="currentColor">
+            <circle cx="2" cy="2" r="2"/><circle cx="8" cy="2" r="2"/><circle cx="14" cy="2" r="2"/>
+          </svg>
+        </button>
+      </div>
+
+      <!-- WhatsApp -->
+      <div class="link-row" id="row-whatsapp">
+        <a href="https://wa.me/34687182618" target="_blank" rel="noopener"
+           class="link-main" onclick="trackClick('whatsapp')">
+          <div class="link-icon-wrap">
+            <svg width="28" height="28" viewBox="0 0 24 24" fill="#25D366">
+              <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/>
+              <path d="M12 0C5.373 0 0 5.373 0 12c0 2.127.558 4.122 1.532 5.855L.057 23.487a.5.5 0 0 0 .609.609l5.632-1.475A11.94 11.94 0 0 0 12 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 22c-1.885 0-3.656-.502-5.184-1.38l-.371-.214-3.845 1.007 1.027-3.748-.232-.384A9.96 9.96 0 0 1 2 12C2 6.477 6.477 2 12 2s10 4.477 10 10-4.477 10-10 10z"/>
+            </svg>
+          </div>
+          <span class="link-label">WhatsApp</span>
+        </a>
+        <button class="link-menu-btn" aria-label="Compartir WhatsApp"
+                onclick="openShare('whatsapp', 'WhatsApp', 'https://wa.me/34687182618')">
+          <svg width="16" height="4" viewBox="0 0 16 4" fill="currentColor">
+            <circle cx="2" cy="2" r="2"/><circle cx="8" cy="2" r="2"/><circle cx="14" cy="2" r="2"/>
+          </svg>
+        </button>
+      </div>
+
+      <!-- TikTok -->
+      <div class="link-row" id="row-tiktok">
+        <a href="https://tiktok.com/@barksnbites1" target="_blank" rel="noopener"
+           class="link-main" onclick="trackClick('tiktok')">
+          <div class="link-icon-wrap">
+            <svg width="26" height="26" viewBox="0 0 24 24" fill="#111225">
+              <path d="M19.59 6.69a4.83 4.83 0 0 1-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 0 1-2.88 2.5 2.89 2.89 0 0 1-2.89-2.89 2.89 2.89 0 0 1 2.89-2.89c.28 0 .54.04.79.1V9.01a6.27 6.27 0 0 0-.79-.05 6.34 6.34 0 0 0-6.34 6.34 6.34 6.34 0 0 0 6.34 6.34 6.34 6.34 0 0 0 6.33-6.34V8.69a8.18 8.18 0 0 0 4.78 1.52V6.75a4.85 4.85 0 0 1-1.01-.06z"/>
+            </svg>
+          </div>
+          <span class="link-label">TikTok</span>
+        </a>
+        <button class="link-menu-btn" aria-label="Compartir TikTok"
+                onclick="openShare('tiktok', 'TikTok', 'https://tiktok.com/@barksnbites1')">
+          <svg width="16" height="4" viewBox="0 0 16 4" fill="currentColor">
+            <circle cx="2" cy="2" r="2"/><circle cx="8" cy="2" r="2"/><circle cx="14" cy="2" r="2"/>
+          </svg>
+        </button>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- Share bottom sheet -->
+  <div class="overlay" id="shareOverlay" onclick="handleOverlayClick(event)">
+    <div class="share-sheet" id="shareSheet">
+      <div class="share-header">
+        <span class="share-title">Compartir link</span>
+        <button class="share-close" onclick="closeShare()" aria-label="Cerrar">
+          <svg width="12" height="12" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+            <line x1="1" y1="1" x2="11" y2="11"/><line x1="11" y1="1" x2="1" y2="11"/>
+          </svg>
+        </button>
+      </div>
+
+      <div class="share-preview">
+        <div class="share-preview-icon" id="sharePreviewIcon">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#ED6565" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="12" cy="12" r="10"/>
+          </svg>
+        </div>
+        <div class="share-preview-text">
+          <div class="share-preview-name" id="sharePreviewName"></div>
+          <div class="share-preview-url" id="sharePreviewUrl"></div>
+        </div>
+      </div>
+
+      <div class="share-actions">
+        <button class="share-btn-primary" id="copyBtn" onclick="copyLink()">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/>
+          </svg>
+          <span id="copyBtnText">Copiar link</span>
+        </button>
+
+        <div class="share-icons-row">
+          <!-- WhatsApp share -->
+          <a id="shareWA" href="#" target="_blank" rel="noopener" class="share-icon-btn" onclick="trackShare('whatsapp')">
+            <div class="share-icon-circle">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="#25D366">
+                <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/>
+                <path d="M12 0C5.373 0 0 5.373 0 12c0 2.127.558 4.122 1.532 5.855L.057 23.487a.5.5 0 0 0 .609.609l5.632-1.475A11.94 11.94 0 0 0 12 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 22c-1.885 0-3.656-.502-5.184-1.38l-.371-.214-3.845 1.007 1.027-3.748-.232-.384A9.96 9.96 0 0 1 2 12C2 6.477 6.477 2 12 2s10 4.477 10 10-4.477 10-10 10z"/>
+              </svg>
+            </div>
+            <span class="share-icon-label">WhatsApp</span>
+          </a>
+
+          <!-- X/Twitter share -->
+          <a id="shareX" href="#" target="_blank" rel="noopener" class="share-icon-btn" onclick="trackShare('x')">
+            <div class="share-icon-circle">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="#111225">
+                <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-4.714-6.231-5.401 6.231H2.746l7.73-8.835L1.254 2.25H8.08l4.253 5.622zm-1.161 17.52h1.833L7.084 4.126H5.117z"/>
+              </svg>
+            </div>
+            <span class="share-icon-label">X</span>
+          </a>
+
+          <!-- Facebook share -->
+          <a id="shareFB" href="#" target="_blank" rel="noopener" class="share-icon-btn" onclick="trackShare('facebook')">
+            <div class="share-icon-circle">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="#1877F2">
+                <path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/>
+              </svg>
+            </div>
+            <span class="share-icon-label">Facebook</span>
+          </a>
+
+          <!-- Native share (mobile) -->
+          <button class="share-icon-btn" id="nativeShareBtn" onclick="nativeShare()" style="display:none">
+            <div class="share-icon-circle">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#111225" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/>
+                <line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/>
+              </svg>
+            </div>
+            <span class="share-icon-label">Más</span>
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <p style="margin-top: 20px; font-size: 12px; color: rgba(255,255,255,0.55); letter-spacing: 0.3px;">
+    made with ♥ in &#x1F1EA;&#x1F1F8;
+  </p>
+  <div style="margin-top: 16px;">
+    <img src="../busvil/logo.png" alt="Busvil" height="20" style="opacity: 0.15; display: block; margin: 0 auto;">
+  </div>
+
+  <!-- Firebase Analytics (CDN, module) -->
+  <script type="module">
+    import { initializeApp } from 'https://www.gstatic.com/firebasejs/11.8.1/firebase-app.js';
+    import { getAnalytics, logEvent, setUserProperties } from 'https://www.gstatic.com/firebasejs/11.8.1/firebase-analytics.js';
+
+    const firebaseConfig = {
+      apiKey: "AIzaSyBXL1WEMqP80fIGYSHX0fL73QlbdPk64ys",
+      authDomain: "barksaccountant.firebaseapp.com",
+      projectId: "barksaccountant",
+      storageBucket: "barksaccountant.firebasestorage.app",
+      messagingSenderId: "424475863507",
+      appId: "1:424475863507:web:28fbab45db74b6cd8ae726",
+      measurementId: "G-LP3JCLM034"
+    };
+
+    const app = initializeApp(firebaseConfig);
+    const analytics = getAnalytics(app);
+
+    // Read UTM params once
+    const params = new URLSearchParams(window.location.search);
+    const utmSource   = params.get('utm_source')   || '(direct)';
+    const utmMedium   = params.get('utm_medium')   || '(none)';
+    const utmCampaign = params.get('utm_campaign') || '(none)';
+
+    // Expose analytics helpers to global scope
+    window._analytics = analytics;
+    window._utmSource = utmSource;
+    window._utmMedium = utmMedium;
+    window._utmCampaign = utmCampaign;
+
+    // Page view
+    logEvent(analytics, 'page_view', {
+      page_title: 'barksnbites',
+      page_location: window.location.href,
+      utm_source: utmSource,
+      utm_medium: utmMedium,
+      utm_campaign: utmCampaign
+    });
+
+    if (utmSource !== '(direct)') {
+      setUserProperties(analytics, { last_utm_source: utmSource });
+    }
+  </script>
+
+  <script>
+    // State
+    let currentLink = null;
+
+    // Show native share button if supported
+    if (navigator.share) {
+      document.getElementById('nativeShareBtn').style.display = 'flex';
+    }
+
+    function getUtm() {
+      return {
+        utm_source:   window._utmSource   || '(direct)',
+        utm_medium:   window._utmMedium   || '(none)',
+        utm_campaign: window._utmCampaign || '(none)'
+      };
+    }
+
+    function trackClick(linkName) {
+      if (!window._analytics) return;
+      const { logEvent } = window; // not available here — use stored ref
+      // logEvent exposed via module above, access through custom event
+      document.dispatchEvent(new CustomEvent('bn:track', {
+        detail: { event: 'link_click', params: { link_name: linkName, ...getUtm() } }
+      }));
+    }
+
+    function trackShare(method) {
+      document.dispatchEvent(new CustomEvent('bn:track', {
+        detail: { event: 'share', params: { link_name: currentLink?.id || '', method, ...getUtm() } }
+      }));
+    }
+
+    function openShare(id, name, url) {
+      currentLink = { id, name, url };
+      document.getElementById('sharePreviewName').textContent = name;
+      document.getElementById('sharePreviewUrl').textContent = url.replace('https://', '');
+      document.getElementById('shareWA').href = `https://wa.me/?text=${encodeURIComponent(url)}`;
+      document.getElementById('shareX').href  = `https://x.com/intent/tweet?url=${encodeURIComponent(url)}&text=${encodeURIComponent(name + ' — barksnbites')}`;
+      document.getElementById('shareFB').href = `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(url)}`;
+      document.getElementById('copyBtnText').textContent = 'Copiar link';
+      document.getElementById('copyBtn').classList.remove('copied');
+      document.getElementById('shareOverlay').classList.add('open');
+      document.body.style.overflow = 'hidden';
+    }
+
+    function closeShare() {
+      document.getElementById('shareOverlay').classList.remove('open');
+      document.body.style.overflow = '';
+      currentLink = null;
+    }
+
+    function handleOverlayClick(e) {
+      if (e.target === document.getElementById('shareOverlay')) closeShare();
+    }
+
+    async function copyLink() {
+      if (!currentLink) return;
+      try {
+        await navigator.clipboard.writeText(currentLink.url);
+        document.getElementById('copyBtnText').textContent = '¡Copiado!';
+        document.getElementById('copyBtn').classList.add('copied');
+        trackShare('copy');
+        setTimeout(() => {
+          document.getElementById('copyBtnText').textContent = 'Copiar link';
+          document.getElementById('copyBtn').classList.remove('copied');
+        }, 2000);
+      } catch {
+        document.getElementById('copyBtnText').textContent = currentLink.url;
+      }
+    }
+
+    async function nativeShare() {
+      if (!currentLink || !navigator.share) return;
+      try {
+        await navigator.share({ title: currentLink.name, url: currentLink.url });
+        trackShare('native');
+      } catch {}
+    }
+
+    function shareGlobal() {
+      openShare('page', '@barksnbites', window.location.href.split('?')[0]);
+    }
+
+    // Listen to analytics events from module scope
+    document.addEventListener('bn:track', (e) => {
+      if (!window._analytics) return;
+      // Use raw gtag if available (Firebase Analytics registers it)
+      if (typeof gtag === 'function') {
+        gtag('event', e.detail.event, e.detail.params);
+      }
+    });
+
+    // Keyboard close
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape') closeShare();
+    });
+  </script>
+
+</body>
+</html>
